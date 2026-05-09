@@ -1,0 +1,21 @@
+{
+  "name": "@homestay-dorm/backend",
+  "version": "0.1.0",
+  "description": "HomeStay Dorm Backend - Database migrations and seeds",
+  "scripts": {
+    "db:migrate": "supabase migration up",
+    "db:seed": "psql $DATABASE_URL -f supabase/migrations/002_seed_data.sql",
+    "db:reset": "supabase migration down --all && supabase migration up",
+    "db:diff": "supabase migration diff",
+    "db:new": "supabase migration new",
+    "db:list": "supabase migration list"
+  },
+  "devDependencies": {
+    "supabase": "^1.200.0"
+  },
+  "keywords": [
+    "supabase",
+    "migrations",
+    "database"
+  ]
+}
