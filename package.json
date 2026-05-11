@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "launcher.js",
   "scripts": {
-    "start": "node launcher.js q3",
+    "start": "node launcher.js",
     "dev": "nodemon launcher.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
