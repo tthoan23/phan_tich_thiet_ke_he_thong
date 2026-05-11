@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homestay Dorm - Nơi sống lý tưởng</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <style>
@@ -15,8 +18,8 @@
         
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #FAFAFA;
-            color: #111827;
+            background-color: #FAFAFA; /* Off-white / Trắng kem siêu nhạt */
+            color: #111827; /* Gray 900 */
             margin: 0;
             padding: 0;
             -webkit-font-smoothing: antialiased;
@@ -28,6 +31,7 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
+        /* Hide scrollbar for bento box but keep functionality */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -37,8 +41,8 @@
             background: #ffffff;
         }
         .drag-drop-zone:hover, .drag-drop-zone.active {
-            border-color: #0f766e;
-            background-color: #f0fdfa;
+            border-color: #0f766e; /* Teal 700 */
+            background-color: #f0fdfa; /* Teal 50 */
         }
         
         .pdf-viewer-fake {
@@ -61,7 +65,7 @@
                     colors: {
                         navy: '#0f172a',
                         teal: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 900: '#134e4a' },
-                        coral: '#ff6b6b',
+                        coral: '#ff6b6b', /* Coral / Accent CTA */
                         surface: '#ffffff',
                     },
                     boxShadow: {
@@ -157,7 +161,7 @@
 
         // --- VIEWS ---
 
-        // 1. HOME VIEW
+        // 1. HOME VIEW (AIRBNB STYLE)
         const HomeView = ({ navigate }) => {
             const [favs, setFavs] = useState({});
             const toggleFav = (e, id) => { e.stopPropagation(); setFavs(prev => ({...prev, [id]: !prev[id]})); };
@@ -171,12 +175,14 @@
 
             return (
                 <div className="animate-fade-in pb-20">
+                    {/* Hero & Floating Search */}
                     <div className="relative h-[500px] flex items-center justify-center bg-gray-900">
                         <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1920&q=80" alt="Hero" className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" />
                         
                         <div className="relative z-10 w-full max-w-5xl px-4 flex flex-col items-center mt-10">
                             <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-10 tracking-tight text-center drop-shadow-lg">Tìm không gian thuộc về bạn.</h1>
                             
+                            {/* Floating Search Bar */}
                             <div className="bg-surface p-2 rounded-full shadow-floating flex flex-col md:flex-row items-center justify-between w-full max-w-4xl transform transition duration-300 hover:shadow-2xl">
                                 <div className="flex-1 w-full px-8 py-3 border-b md:border-b-0 md:border-r border-gray-200 hover:bg-gray-50 rounded-l-full cursor-pointer transition">
                                     <label className="block text-xs font-bold text-gray-800 tracking-wide">Chi nhánh / Khu vực</label>
@@ -205,6 +211,7 @@
                         </div>
                     </div>
 
+                    {/* Room Grid */}
                     <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
                         <h2 className="text-2xl font-bold text-gray-900 mb-8">Chỗ ở nổi bật</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -235,13 +242,14 @@
             );
         };
 
-        // 2. ROOM DETAIL VIEW
+        // 2. ROOM DETAIL VIEW (BENTO BOX + 70/30)
         const RoomDetailView = ({ navigate }) => {
             return (
                 <div className="bg-surface min-h-screen pb-24 animate-fade-in">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
                         <h1 className="text-3xl font-extrabold text-gray-900 mb-6 tracking-tight">Studio Nguyên Căn Cao Cấp Ánh Sáng Tự Nhiên</h1>
                         
+                        {/* Bento Box Image Grid */}
                         <div className="grid grid-cols-4 grid-rows-2 gap-2 md:gap-3 h-[400px] md:h-[500px] rounded-3xl overflow-hidden mb-12">
                             <div className="col-span-4 md:col-span-2 row-span-2 relative group cursor-pointer">
                                 <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1200&q=80" className="w-full h-full object-cover group-hover:brightness-95 transition" />
@@ -260,7 +268,9 @@
                             </div>
                         </div>
 
+                        {/* 70/30 Layout */}
                         <div className="flex flex-col lg:flex-row gap-16 relative">
+                            {/* Left Col (70%) */}
                             <div className="lg:w-2/3">
                                 <div className="flex items-center justify-between pb-8 border-b border-gray-200">
                                     <div>
@@ -301,6 +311,7 @@
                                 </div>
                             </div>
 
+                            {/* Right Col (30%) - Sticky Box */}
                             <div className="lg:w-1/3">
                                 <div className="bg-surface border border-gray-200 rounded-3xl shadow-floating p-6 lg:sticky lg:top-28">
                                     <div className="mb-6 flex items-baseline">
@@ -333,7 +344,7 @@
             );
         };
 
-        // 3. DEPOSIT CHECKOUT
+        // 3. DEPOSIT CHECKOUT (E-COMMERCE STYLE)
         const DepositCheckoutView = ({ navigate }) => {
             const [timeLeft, setTimeLeft] = useState(23 * 3600 + 59 * 60 + 59);
             const [toast, setToast] = useState(null);
@@ -357,6 +368,7 @@
 
             return (
                 <div className="bg-white min-h-screen animate-fade-in flex flex-col">
+                    {/* Top Banner Warning */}
                     <div className="bg-yellow-100 border-b border-yellow-200 text-yellow-800 py-3 px-4 text-center font-bold text-sm flex items-center justify-center gap-2">
                         <Icons.Clock /> Vui lòng hoàn tất thanh toán trong <span className="text-red-600 font-mono text-base">{formatTime(timeLeft)}</span> để giữ phòng. Quá hạn tự động hủy.
                     </div>
@@ -367,6 +379,7 @@
                         <h1 className="text-3xl font-extrabold text-gray-900 mb-8">Xác nhận Đặt cọc</h1>
                         
                         <div className="flex flex-col lg:flex-row gap-12">
+                            {/* Left: Summary */}
                             <div className="lg:w-[45%]">
                                 <div className="bg-gray-50 rounded-3xl p-6 md:p-8 border border-gray-200">
                                     <div className="flex gap-4 border-b border-gray-200 pb-6 mb-6">
@@ -388,6 +401,7 @@
                                 </div>
                             </div>
 
+                            {/* Right: Payment Method */}
                             <div className="lg:w-[55%]">
                                 <h3 className="text-xl font-bold text-gray-900 mb-6">Chuyển khoản Ngân hàng</h3>
                                 
@@ -396,7 +410,7 @@
                                         <img src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Deposit-6500000`} className="w-full h-full mix-blend-multiply" />
                                     </div>
                                     <div className="flex-1 text-center sm:text-left">
-                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Thông tin khoản</p>
+                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Thông tin tài khoản</p>
                                         <p className="font-extrabold text-xl text-gray-900 mb-1 font-mono tracking-tight">1903 4567 8910</p>
                                         <p className="text-gray-600 font-bold text-sm mb-4">Vietcombank - CT HOMESTAY DORM</p>
                                         
@@ -426,212 +440,55 @@
 
         // 4. RESIDENT PORTAL "MY RENT"
         const PortalView = ({ navigate, isFirstTime = true }) => {
-            // Thay vì useState mặc định, ta lưu vào localStorage để không bị reset khi chuyển trang
-            const [savedData, setSavedData] = useState(() => {
-                const local = localStorage.getItem('homestay_demo_data');
-                return local ? JSON.parse(local) : {
-                    rentStatus: 'profile',
-                    userInfo: { fullName: '', phone: '' },
-                    roommates: []
-                };
-            });
-
+            const [rentStatus, setRentStatus] = useState(isFirstTime ? 'active' : 'none'); // 'none' or 'active'
             const [activeTab, setActiveTab] = useState('contract');
             const [isModalOpen, setIsModalOpen] = useState(false);
             const [toast, setToast] = useState(null);
-            
-            // State cho chức năng mới
-            const [isAgreed, setIsAgreed] = useState(false);
-            const [newMember, setNewMember] = useState({ name: '', phone: '', cccd: '' });
 
-            useEffect(() => {
-                localStorage.setItem('homestay_demo_data', JSON.stringify(savedData));
-            }, [savedData]);
+            const MAX_THANH_VIEN = 5; // soNguoiOToiDa của phòng mock
+            const [members, setMembers] = useState([
+                { id: 'kh-001', name: 'Nguyễn Văn Khách', daiDien: true },
+            ]);
+            const [confirmDelete, setConfirmDelete] = useState(null);
+            const [newMemberName, setNewMemberName] = useState('');
 
-            // Regex tối giản
-            const isValidName = (str) => /^[a-zA-ZÀ-ỹ\s]+$/.test(str);
-            const isValidNumber = (str) => /^[0-9]+$/.test(str);
+            const themThanhVien = (name) => {
+                const ten = (name || '').trim();
+                if (!ten) {
+                    setToast('Vui lòng nhập họ và tên.');
+                    return false;
+                }
+                if (members.length >= MAX_THANH_VIEN) {
+                    setToast(`Phòng đã đủ ${MAX_THANH_VIEN} người, không thể thêm.`);
+                    return false;
+                }
+                setMembers(prev => [...prev, { id: `kh-${Date.now()}`, name: ten, daiDien: false }]);
+                setToast('Đã thêm thành viên thành công!');
+                return true;
+            };
+
+            const xoaThanhVien = (id) => {
+                setMembers(prev => prev.filter(m => m.id !== id));
+                setConfirmDelete(null);
+                setToast('Đã xóa thành viên.');
+            };
 
             // GIAI ĐOẠN 3.1: EMPTY STATE
-            if (savedData.rentStatus === 'none') {
+            if (rentStatus === 'none') {
                 return (
                     <div className="bg-surface min-h-[calc(100vh-80px)] flex flex-col items-center justify-center p-4 animate-fade-in text-center">
                         <div className="w-64 h-64 mb-8 text-gray-200"><Icons.Home /></div>
                         <h2 className="text-2xl font-extrabold text-gray-900 mb-2">Bạn chưa thuê phòng nào</h2>
                         <p className="text-gray-500 font-medium mb-8 max-w-md">Hãy tìm cho mình một không gian ưng ý và bắt đầu trải nghiệm sống tuyệt vời tại Homestay Dorm nhé!</p>
-                        <button onClick={() => setSavedData(prev => ({...prev, rentStatus: 'profile'}))} className="bg-teal-600 text-white font-bold py-4 px-8 rounded-full shadow-floating hover:-translate-y-1 transition-all">Đăng ký nhu cầu phòng</button>
+                        <button onClick={() => navigate('home')} className="bg-teal-600 text-white font-bold py-4 px-8 rounded-full shadow-floating hover:-translate-y-1 transition-all">Khám phá phòng ngay</button>
                     </div>
                 );
             }
 
-            // GIAI ĐOẠN 3.2: UPDATE PROFILE & REQUIREMENTS (GIỮ NGUYÊN GIAO DIỆN CỦA BẠN)
-            if (savedData.rentStatus === 'profile') {
-                const handleProfileSubmit = (e) => {
-                    e.preventDefault();
-                    const formData = new FormData(e.target);
-                    const fullName = formData.get('fullName').trim();
-                    const phone = formData.get('phone').trim();
-
-                    if (!isValidName(fullName)) return setToast("Tên chỉ được chứa chữ cái!");
-                    if (!isValidNumber(phone)) return setToast("Số điện thoại chỉ được chứa số!");
-
-                    setSavedData(prev => ({
-                        ...prev,
-                        rentStatus: 'active',
-                        userInfo: { fullName, phone }
-                    }));
-                    setToast("Đã lưu thông tin hồ sơ!");
-                };
-
-                return (
-                    <div className="bg-surface min-h-screen pb-16 animate-fade-in">
-                        <div className="bg-white border-b border-gray-100 pb-6"><Stepper currentStep={1} /></div>
-                        
-                        <div className="max-w-4xl mx-auto px-4 sm:px-6 mt-10">
-                            <div className="bg-white rounded-3xl shadow-soft border border-gray-100 p-8 md:p-12">
-                                <h2 className="text-3xl font-extrabold text-gray-900 mb-2">Thông tin & Yêu cầu Đăng ký</h2>
-                                <p className="text-gray-500 font-medium mb-10">Vui lòng cung cấp đầy đủ thông tin cá nhân và các tiêu chí ưu tiên để BQL sắp xếp phòng phù hợp nhất.</p>
-
-                                <form onSubmit={handleProfileSubmit}>
-                                    {/* 1. Thông tin cá nhân */}
-                                    <div className="mb-10">
-                                        <h3 className="flex items-center text-lg font-bold text-gray-900 mb-6 pb-2 border-b border-gray-100">
-                                            <div className="w-8 h-8 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center mr-3"><Icons.UserPlus /></div>
-                                            1. Thông tin cá nhân
-                                        </h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Họ và tên *</label>
-                                                <input name="fullName" type="text" required className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition" placeholder="Nguyễn Văn A" />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Số điện thoại *</label>
-                                                <input name="phone" type="text" required className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition" placeholder="0901234567" />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Giới tính</label>
-                                                <select className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition cursor-pointer">
-                                                    <option>Nam</option>
-                                                    <option>Nữ</option>
-                                                    <option>Khác</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Số lượng người dự kiến ở *</label>
-                                                <input type="number" required min="1" className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition" defaultValue="1" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* 2. Nhu cầu phòng ở */}
-                                    <div className="mb-10">
-                                        <h3 className="flex items-center text-lg font-bold text-gray-900 mb-6 pb-2 border-b border-gray-100">
-                                            <div className="w-8 h-8 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center mr-3"><Icons.MapPin /></div>
-                                            2. Nhu cầu phòng ở
-                                        </h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Khu vực mong muốn</label>
-                                                <select className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition cursor-pointer">
-                                                    <option>Quận 1, TP.HCM</option>
-                                                    <option>Quận 7, TP.HCM</option>
-                                                    <option>Bình Thạnh, TP.HCM</option>
-                                                    <option>Khu vực khác...</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Loại phòng</label>
-                                                <select className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition cursor-pointer">
-                                                    <option>Nguyên phòng (Studio/1PN)</option>
-                                                    <option>Giường ghép (Dorm)</option>
-                                                    <option>Phòng đôi</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Mức giá dự kiến (VNĐ/tháng)</label>
-                                                <input type="text" className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition" placeholder="VD: 5.000.000 - 7.000.000" />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Thời hạn thuê mong muốn</label>
-                                                <select className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition cursor-pointer">
-                                                    <option>12 Tháng (Khuyên dùng)</option>
-                                                    <option>6 Tháng</option>
-                                                    <option>3 Tháng</option>
-                                                    <option>Ngắn hạn (Dưới 3 tháng)</option>
-                                                </select>
-                                            </div>
-                                            <div className="md:col-span-2">
-                                                <label className="block text-sm font-bold text-gray-700 mb-2">Thời gian dự kiến vào ở</label>
-                                                <input type="date" className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition cursor-pointer" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* 3. Tiêu chí ưu tiên */}
-                                    <div className="mb-12">
-                                        <h3 className="flex items-center text-lg font-bold text-gray-900 mb-6 pb-2 border-b border-gray-100">
-                                            <div className="w-8 h-8 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center mr-3"><Icons.Heart /></div>
-                                            3. Các tiêu chí ưu tiên khác
-                                        </h3>
-                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                            {["Giờ giấc sinh hoạt tự do", "Yêu cầu yên tĩnh cao", "Có chỗ đậu xe máy", "Trang bị điều hòa", "Có bếp nấu ăn riêng", "Cho phép nuôi thú cưng"].map((item, idx) => (
-                                                <label key={idx} className="flex items-center space-x-3 cursor-pointer p-3 border border-gray-100 rounded-xl hover:bg-gray-50 transition">
-                                                    <input type="checkbox" className="w-5 h-5 rounded text-teal-600 focus:ring-teal-500 border-gray-300 cursor-pointer" />
-                                                    <span className="text-sm font-medium text-gray-700">{item}</span>
-                                                </label>
-                                            ))}
-                                        </div>
-                                        <div className="mt-4">
-                                            <label className="block text-sm font-bold text-gray-700 mb-2">Ghi chú thêm (Nếu có)</label>
-                                            <textarea className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition min-h-[100px]" placeholder="Nhập các yêu cầu khác của bạn tại đây..."></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div className="pt-6 border-t border-gray-100 flex justify-end">
-                                        <button type="submit" className="w-full md:w-auto bg-teal-600 hover:bg-teal-700 text-white font-extrabold py-4 px-10 rounded-2xl transition-all shadow-floating text-lg">
-                                            Xác nhận Thông tin & Tiếp tục
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        {toast && <Toast message={toast} onClose={() => setToast(null)} />}
-                    </div>
-                );
-            }
-
-            const handleAddMember = () => {
-                if (!newMember.name || !newMember.phone || !newMember.cccd) return setToast("Điền đủ thông tin!");
-                if (!isValidName(newMember.name)) return setToast("Tên sai định dạng!");
-                if (!isValidNumber(newMember.phone) || !isValidNumber(newMember.cccd)) return setToast("SĐT/CCCD phải là số!");
-
-                setSavedData(prev => ({ ...prev, roommates: [...prev.roommates, newMember] }));
-                setNewMember({ name: '', phone: '', cccd: '' });
-                setIsModalOpen(false);
-                setToast("Đã thêm thành viên!");
-            };
-
-            const handleSignContract = async () => {
-                if (!isAgreed) return setToast("Vui lòng đồng ý điều khoản!");
-                try {
-                    const response = await fetch('http://localhost:3000/api/contract', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            fullName: savedData.userInfo.fullName,
-                            phone: savedData.userInfo.phone,
-                            roommates: savedData.roommates
-                        })
-                    });
-                    const result = await response.json();
-                    if (result.success) setToast("Đã ký và lưu vào SQL Server!");
-                    else setToast("Lỗi DB: " + result.message);
-                } catch (error) { setToast("Server Node.js chưa chạy!"); }
-            };
-
-            // GIAI ĐOẠN 3.3: ACTIVE DASHBOARD
+            // GIAI ĐOẠN 3.2: ACTIVE DASHBOARD
             return (
                 <div className="bg-surface min-h-screen">
+                    {/* Stepper only visible if not fully checked in. Let's assume step 2 (Ký HĐ) */}
                     <div className="bg-white border-b border-gray-100 pb-6"><Stepper currentStep={2} /></div>
 
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col md:flex-row gap-10">
@@ -653,12 +510,6 @@
                                         </button>
                                     ))}
                                 </nav>
-                                <button onClick={() => {
-                                    localStorage.removeItem('homestay_demo_data');
-                                    setSavedData({ rentStatus: 'profile', userInfo: { fullName: '', phone: '' }, roommates: [] });
-                                }} className="w-full mt-4 flex items-center justify-center px-4 py-3 text-xs font-bold text-red-500 hover:bg-red-50 rounded-2xl transition-all">
-                                    Reset Demo Data
-                                </button>
                             </div>
                         </div>
 
@@ -671,39 +522,47 @@
                                     {/* Roommates Section */}
                                     <div className="mb-12">
                                         <div className="flex justify-between items-center mb-6">
-                                            <h2 className="text-xl font-extrabold text-gray-900">Thành viên phòng</h2>
-                                            <button onClick={() => setIsModalOpen(true)} className="text-teal-600 font-bold text-sm bg-teal-50 px-4 py-2 rounded-full hover:bg-teal-100 transition">+ Thêm thành viên</button>
+                                            <h2 className="text-xl font-extrabold text-gray-900">
+                                                Thành viên phòng <span className="text-gray-400 font-bold text-base">({members.length}/{MAX_THANH_VIEN})</span>
+                                            </h2>
+                                            <button
+                                                onClick={() => { if (members.length < MAX_THANH_VIEN) { setNewMemberName(''); setIsModalOpen(true); } }}
+                                                disabled={members.length >= MAX_THANH_VIEN}
+                                                title={members.length >= MAX_THANH_VIEN ? `Đã đủ ${MAX_THANH_VIEN} người` : ''}
+                                                className={`font-bold text-sm px-4 py-2 rounded-full transition ${members.length >= MAX_THANH_VIEN ? 'text-gray-400 bg-gray-100 cursor-not-allowed' : 'text-teal-600 bg-teal-50 hover:bg-teal-100'}`}
+                                            >
+                                                + Thêm thành viên
+                                            </button>
                                         </div>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            
-                                            {/* Đại diện hợp đồng */}
-                                            <div className="border border-teal-200 bg-teal-50 rounded-2xl p-4 flex items-center">
-                                                <div className="w-12 h-12 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-lg mr-4">
-                                                    {savedData.userInfo.fullName.charAt(0) || 'U'}
-                                                </div>
-                                                <div>
-                                                    <p className="font-bold text-gray-900">{savedData.userInfo.fullName}</p>
-                                                    <p className="text-xs text-teal-700 font-medium">SĐT: {savedData.userInfo.phone}</p>
-                                                    <p className="text-[10px] text-teal-600 font-bold uppercase mt-1">Đại diện HĐ</p>
-                                                </div>
-                                            </div>
-
-                                            {/* Danh sách thành viên mới */}
-                                            {savedData.roommates.map((rm, idx) => (
-                                                <div key={idx} className="border border-gray-200 bg-gray-50 rounded-2xl p-4 flex items-center">
-                                                    <div className="w-12 h-12 rounded-full bg-gray-400 text-white flex items-center justify-center font-bold text-lg mr-4">
-                                                        {rm.name.charAt(0)}
+                                            {members.map((m) => {
+                                                const parts = m.name.trim().split(/\s+/);
+                                                const initial = (parts[parts.length - 1][0] || '?').toUpperCase();
+                                                return (
+                                                    <div key={m.id} className="relative border border-gray-200 rounded-2xl p-4 flex items-center bg-gray-50">
+                                                        <div className="w-12 h-12 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-lg mr-4">{initial}</div>
+                                                        <div>
+                                                            <p className="font-bold text-gray-900">{m.name}</p>
+                                                            <p className="text-xs text-gray-500 font-medium">{m.daiDien ? 'Đại diện HĐ' : 'Thành viên'}</p>
+                                                        </div>
+                                                        {!m.daiDien && (
+                                                            <button
+                                                                onClick={() => setConfirmDelete(m)}
+                                                                aria-label={`Xóa ${m.name}`}
+                                                                title="Xóa thành viên"
+                                                                className="absolute top-2 right-2 w-7 h-7 rounded-full bg-white border border-gray-200 text-gray-400 hover:text-coral hover:border-coral flex items-center justify-center transition shadow-sm"
+                                                            >
+                                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 6l12 12M6 18L18 6"/></svg>
+                                                            </button>
+                                                        )}
                                                     </div>
-                                                    <div>
-                                                        <p className="font-bold text-gray-900">{rm.name}</p>
-                                                        <p className="text-xs text-gray-500 font-medium">SĐT: {rm.phone}</p>
-                                                    </div>
+                                                );
+                                            })}
+                                            {members.length < MAX_THANH_VIEN && (
+                                                <div className="border border-dashed border-gray-300 rounded-2xl p-4 flex items-center justify-center cursor-pointer hover:bg-gray-50 transition" onClick={() => { setNewMemberName(''); setIsModalOpen(true); }}>
+                                                    <span className="text-gray-400 font-bold text-sm">+ Trống (Có thể thêm)</span>
                                                 </div>
-                                            ))}
-
-                                            <div className="border border-dashed border-gray-300 rounded-2xl p-4 flex items-center justify-center cursor-pointer hover:bg-gray-50 transition" onClick={() => setIsModalOpen(true)}>
-                                                <span className="text-gray-400 font-bold text-sm">+ Trống (Có thể thêm)</span>
-                                            </div>
+                                            )}
                                         </div>
                                     </div>
 
@@ -713,17 +572,17 @@
                                         <div className="border border-gray-200 rounded-3xl overflow-hidden bg-gray-50 p-2 md:p-6 mb-6">
                                             <div className="bg-white w-full shadow-sm border border-gray-200 overflow-y-auto p-8 h-[400px] pdf-viewer-fake text-sm text-gray-800 rounded-2xl">
                                                 <h2 className="text-center font-bold text-lg mb-6">HỢP ĐỒNG THUÊ CHỖ Ở LƯU TRÚ</h2>
-                                                <p className="font-bold mb-2">BÊN THUÊ (BÊN B): {savedData.userInfo.fullName.toUpperCase()}</p>
-                                                <p className="mb-4">Số Điện Thoại: {savedData.userInfo.phone}</p>
+                                                <p className="font-bold mb-2">BÊN THUÊ (BÊN B): NGUYỄN VĂN KHÁCH</p>
+                                                <p className="mb-4">Số CCCD: 079123456789</p>
                                                 <p className="text-justify leading-relaxed">Điều 1: Bên A đồng ý cho Bên B thuê phòng Studio tại chi nhánh Quận 1 với giá 6.500.000đ/tháng. Thời hạn hợp đồng 12 tháng từ ngày 15/05/2026...</p>
                                             </div>
                                         </div>
                                         <div className="bg-white border-2 border-teal-600 rounded-3xl p-6 shadow-sm">
                                             <label className="flex items-start cursor-pointer mb-6 group">
-                                                <input type="checkbox" checked={isAgreed} onChange={(e) => setIsAgreed(e.target.checked)} className="mt-1 w-5 h-5 rounded text-teal-600 focus:ring-teal-500 border-gray-300" />
+                                                <input type="checkbox" className="mt-1 w-5 h-5 rounded text-teal-600 focus:ring-teal-500 border-gray-300" />
                                                 <span className="ml-3 text-gray-700 font-medium group-hover:text-gray-900 transition">Tôi đã đọc, hiểu rõ và đồng ý với tất cả các điều khoản trong Hợp đồng. Bằng việc nhấn nút, tôi xác nhận chữ ký điện tử của mình có giá trị pháp lý.</span>
                                             </label>
-                                            <button onClick={handleSignContract} className={`w-full md:w-auto float-right font-extrabold py-4 px-10 rounded-2xl transition-all shadow-floating ${isAgreed ? 'bg-gray-900 hover:bg-black text-white' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}>
+                                            <button onClick={()=>{setToast("Đã ký hợp đồng thành công!");}} className="w-full md:w-auto float-right bg-gray-900 hover:bg-black text-white font-extrabold py-4 px-10 rounded-2xl transition-all shadow-floating">
                                                 Ký Hợp Đồng Điện Tử
                                             </button>
                                             <div className="clear-both"></div>
@@ -737,6 +596,7 @@
                                 <div className="animate-fade-in">
                                     <h2 className="text-2xl font-extrabold text-gray-900 mb-8">Hóa đơn & Thanh toán</h2>
                                     <div className="space-y-6">
+                                        {/* Unpaid Bill */}
                                         <div className="border-2 border-red-200 bg-white rounded-3xl p-6 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 hover:shadow-md transition">
                                             <div className="flex gap-4">
                                                 <div className="w-12 h-12 rounded-full bg-red-50 text-red-600 flex items-center justify-center shrink-0"><Icons.FileText/></div>
@@ -752,6 +612,7 @@
                                             </div>
                                         </div>
                                         
+                                        {/* Paid Bill */}
                                         <div className="border border-gray-200 bg-gray-50 rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 opacity-70">
                                             <div className="flex gap-4">
                                                 <div className="w-12 h-12 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center shrink-0"><Icons.Check/></div>
@@ -778,6 +639,7 @@
                                         <button className="text-gray-500 font-bold text-sm bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full transition">Đăng ký trả phòng</button>
                                     </div>
 
+                                    {/* Invoice Style Paper */}
                                     <div className="w-full max-w-lg bg-white border border-gray-200 rounded-3xl p-8 sm:p-10 shadow-floating relative overflow-hidden">
                                         <div className="absolute top-0 left-0 w-full h-2 bg-gray-900"></div>
                                         <div className="text-center border-b border-gray-100 pb-6 mb-8 mt-2">
@@ -827,27 +689,45 @@
                         <div className="space-y-5">
                             <div>
                                 <label className="block text-sm font-bold text-gray-700 mb-2">Họ và tên</label>
-                                <input type="text" value={newMember.name} onChange={e => setNewMember({...newMember, name: e.target.value})} className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition" placeholder="Nguyễn Văn B" />
+                                <input
+                                    type="text"
+                                    value={newMemberName}
+                                    onChange={(e) => setNewMemberName(e.target.value)}
+                                    className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition"
+                                    placeholder="Nguyễn Văn B"
+                                />
                             </div>
                             <div>
                                 <label className="block text-sm font-bold text-gray-700 mb-2">Số điện thoại</label>
-                                <input type="tel" value={newMember.phone} onChange={e => setNewMember({...newMember, phone: e.target.value})} className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition" placeholder="0909..." />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-bold text-gray-700 mb-2">Số CCCD</label>
-                                <input type="text" value={newMember.cccd} onChange={e => setNewMember({...newMember, cccd: e.target.value})} className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition" placeholder="Đúng 12 số..." />
+                                <input type="tel" className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3.5 outline-none focus:border-teal-500 focus:bg-white font-medium transition" placeholder="0909..." />
                             </div>
                             <div className="pt-2">
-                                <label className="block text-sm font-bold text-gray-700 mb-2">Giấy tờ tùy thân (Tùy chọn)</label>
+                                <label className="block text-sm font-bold text-gray-700 mb-2">Giấy tờ tùy thân</label>
                                 <div className="drag-drop-zone rounded-2xl p-6 text-center cursor-pointer bg-gray-50 border-gray-200">
                                     <div className="text-gray-400 mb-2 flex justify-center"><Icons.UploadCloud /></div>
                                     <p className="text-sm font-bold text-gray-900">Tải ảnh mặt trước & sau CCCD</p>
                                 </div>
                             </div>
-                            <button onClick={handleAddMember} className="w-full bg-teal-600 hover:bg-teal-700 text-white font-extrabold py-4 rounded-xl mt-4 transition shadow-md">
+                            <button
+                                onClick={() => { if (themThanhVien(newMemberName)) { setNewMemberName(''); setIsModalOpen(false); } }}
+                                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-extrabold py-4 rounded-xl mt-4 transition shadow-md"
+                            >
                                 Lưu thành viên
                             </button>
                         </div>
+                    </Modal>
+
+                    {/* Confirm Delete Modal */}
+                    <Modal isOpen={!!confirmDelete} onClose={() => setConfirmDelete(null)} title="Xác nhận xóa thành viên">
+                        {confirmDelete && (
+                            <div className="space-y-6">
+                                <p className="text-gray-600 font-medium">Bạn có chắc chắn muốn xóa <b className="text-gray-900">{confirmDelete.name}</b> khỏi phòng?</p>
+                                <div className="flex gap-3 justify-end">
+                                    <button onClick={() => setConfirmDelete(null)} className="px-5 py-3 rounded-xl font-bold text-gray-700 bg-gray-100 hover:bg-gray-200 transition">Hủy</button>
+                                    <button onClick={() => xoaThanhVien(confirmDelete.id)} className="px-5 py-3 rounded-xl font-extrabold text-white bg-coral hover:bg-red-500 transition shadow-md">Xóa</button>
+                                </div>
+                            </div>
+                        )}
                     </Modal>
 
                     {toast && <Toast message={toast} onClose={() => setToast(null)} />}
@@ -861,17 +741,22 @@
 
             useEffect(() => { window.scrollTo(0, 0); }, [currentView]);
 
+            // Determine if we should show the full nav or focus mode (checkout)
             const isFocusMode = currentView === 'checkout';
 
             return (
                 <div className="flex flex-col min-h-screen">
+                    {/* TOP NAVIGATION */}
                     <header className={`bg-surface border-b border-gray-100 sticky top-0 z-40 ${isFocusMode ? 'py-4' : 'h-20'} transition-all`}>
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+                            
+                            {/* Logo */}
                             <div className="flex items-center cursor-pointer group" onClick={() => !isFocusMode && setCurrentView('home')}>
                                 <div className="w-10 h-10 bg-teal-600 rounded-xl text-white flex items-center justify-center font-bold text-xl mr-3 shadow-md group-hover:bg-teal-700 transition">H</div>
                                 <span className="font-extrabold text-2xl text-gray-900 tracking-tight hidden sm:block">HomeStay<span className="text-teal-600">.</span></span>
                             </div>
 
+                            {/* Center Menus (Hidden in Focus Mode) */}
                             {!isFocusMode && (
                                 <nav className="hidden md:flex space-x-1 border border-gray-200 rounded-full p-1 shadow-sm bg-white">
                                     <button onClick={() => setCurrentView('home')} className={`px-5 py-2 rounded-full text-sm font-bold transition-all ${currentView === 'home' || currentView === 'detail' ? 'bg-gray-100 text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-50'}`}>Tìm phòng</button>
@@ -880,6 +765,7 @@
                                 </nav>
                             )}
 
+                            {/* Right Actions */}
                             <div className="flex items-center space-x-4">
                                 {!isFocusMode && (
                                     <>
@@ -900,6 +786,7 @@
                         </div>
                     </header>
 
+                    {/* MAIN CONTENT ROUTER */}
                     <main className="flex-grow">
                         {currentView === 'home' && <HomeView navigate={setCurrentView} />}
                         {currentView === 'detail' && <RoomDetailView navigate={setCurrentView} />}
@@ -907,6 +794,7 @@
                         {currentView === 'portal' && <PortalView navigate={setCurrentView} />}
                     </main>
 
+                    {/* FOOTER (Hidden in Focus Mode) */}
                     {!isFocusMode && (
                         <footer className="bg-white border-t border-gray-200 py-12 mt-auto">
                             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">

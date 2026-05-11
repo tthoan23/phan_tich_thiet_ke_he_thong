@@ -1,0 +1,22 @@
+{
+  "name": "phan_tich_thiet_ke_he_thong",
+  "version": "1.0.0",
+  "main": "launcher.js",
+  "scripts": {
+    "start": "node launcher.js q3",
+    "dev": "nodemon launcher.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "better-sqlite3": "^12.9.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

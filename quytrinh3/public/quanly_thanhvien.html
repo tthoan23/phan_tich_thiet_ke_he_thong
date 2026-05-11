@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý thành viên lưu trú</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { background: #f8fafc; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useEffect, useMemo, useState } = React;
+
+    function Toast({ message, type = 'success', onClose }) {
+      useEffect(() => {
+        if (!message) return;
+        const t = setTimeout(onClose, 2500);
+        return () => clearTimeout(t);
+      }, [message, onClose]);
+
+      if (!message) return null;
+
+      return (
+        <div className="fixed top-5 right-5 z-50">
+          <div className={`px-4 py-3 rounded-xl text-white shadow-lg ${type === 'error' ? 'bg-red-500' : 'bg-teal-600'}`}>
+            {message}
+          </div>
+        </div>
+      );
+    }
+
+    function Modal({ isOpen, title, onClose, children }) {
+      if (!isOpen) return null;
+
+      return (
+        <div className="fixed inset-0 bg-black/40 z-40 flex items-center justify-center p-4" onClick={onClose}>
+          <div className="bg-white w-full max-w-md rounded-2xl p-6" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">{title}</h3>
+              <button className="text-gray-400 text-xl" onClick={onClose}>×</button>
+            </div>
+            {children}
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const maHopDong = useMemo(() => {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('maHopDong') || 'HD-2026-001';
+      }, []);
+
+      const [loading, setLoading] = useState(true);
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [toast, setToast] = useState('');
+      const [toastType, setToastType] = useState('success');
+      const [membersData, setMembersData] = useState({
+        soNguoiToiDa: 0,
+        soLuongHienTai: 0,
+        daiDienId: null,
+        danhSach: [],
+      });
+      const [form, setForm] = useState({
+        hoTen: '',
+        soDienThoai: '',
+        cccd: '',
+      });
+      const [saving, setSaving] = useState(false);
+
+      async function fetchMembers() {
+        setLoading(true);
+        try {
+          const res = await fetch(`/api/hop-dong/${encodeURIComponent(maHopDong)}/thanh-vien`);
+          const json = await res.json();
+          if (!res.ok || !json.success) {
+            throw new Error(json.error || 'Không thể tải danh sách thành viên');
+          }
+          setMembersData(json.data);
+        } catch (err) {
+          setToastType('error');
+          setToast(err.message || 'Lỗi tải dữ liệu');
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      useEffect(() => {
+        fetchMembers();
+      }, [maHopDong]);
+
+      async function handleSaveMember(e) {
+        e.preventDefault();
+        if (saving) return;
+        setSaving(true);
+
+        try {
+          const res = await fetch(`/api/hop-dong/${encodeURIComponent(maHopDong)}/thanh-vien`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              hoTen: form.hoTen,
+              soDienThoai: form.soDienThoai,
+              cccd: form.cccd,
+            }),
+          });
+
+          const json = await res.json();
+          if (!res.ok || !json.success) {
+            throw new Error(json.error || 'Không thể lưu thành viên');
+          }
+
+          setToastType('success');
+          setToast('Đã thêm thành viên');
+          setForm({ hoTen: '', soDienThoai: '', cccd: '' });
+          setIsModalOpen(false);
+          await fetchMembers();
+        } catch (err) {
+          setToastType('error');
+          setToast(err.message || 'Lỗi lưu thành viên');
+        } finally {
+          setSaving(false);
+        }
+      }
+
+      const danhSach = membersData.danhSach || [];
+
+      return (
+        <div className="min-h-screen py-8 px-4">
+          <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-sm border border-gray-100 p-6 md:p-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900">Thành viên phòng</h1>
+                <p className="text-gray-500 mt-1">Mã hợp đồng: <span className="font-semibold text-gray-700">{maHopDong}</span></p>
+              </div>
+              <div className="text-sm font-semibold bg-teal-50 text-teal-700 px-4 py-2 rounded-full w-fit">
+                {membersData.soLuongHienTai}/{membersData.soNguoiToiDa} người
+              </div>
+            </div>
+
+            {loading ? (
+              <div className="py-10 text-gray-500">Đang tải dữ liệu...</div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {danhSach.map((item) => {
+                  const name = item.hoTen || 'Không tên';
+                  const initial = name.trim().charAt(0).toUpperCase() || 'K';
+                  const isDaiDien = Number(item.daiDienNhom) === 1 || item.maKhachHang === membersData.daiDienId;
+
+                  return (
+                    <div key={`${item.maHopDong}-${item.maKhachHang}`} className="border border-gray-200 rounded-2xl p-4 flex items-center bg-gray-50">
+                      <div className="w-12 h-12 rounded-full bg-teal-600 text-white grid place-items-center font-bold text-lg">{initial}</div>
+                      <div className="ml-4 min-w-0">
+                        <p className="font-bold text-gray-900 truncate">{name}</p>
+                        <p className="text-xs text-gray-500">
+                          {isDaiDien ? 'Đại diện HĐ' : 'Thành viên'}
+                          {item.cccd ? ` • CCCD: ${item.cccd}` : ''}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <button
+                  className="border border-dashed border-gray-300 rounded-2xl p-4 text-gray-500 font-semibold hover:bg-gray-50 transition"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  + Thêm người ở ghép
+                </button>
+              </div>
+            )}
+
+            <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col md:flex-row gap-3 md:items-center md:justify-between">
+              <p className="text-sm text-gray-500">Nút ký hợp đồng giữ làm cảnh theo scope UC.</p>
+              <button
+                onClick={(e) => e.preventDefault()}
+                className="bg-gray-900 text-white px-6 py-3 rounded-xl font-bold opacity-60 cursor-not-allowed"
+              >
+                Ký Hợp Đồng Điện Tử
+              </button>
+            </div>
+          </div>
+
+          <Modal isOpen={isModalOpen} title="Thêm người ở ghép" onClose={() => setIsModalOpen(false)}>
+            <form className="space-y-4" onSubmit={handleSaveMember}>
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Họ và tên</label>
+                <input
+                  type="text"
+                  value={form.hoTen}
+                  onChange={(e) => setForm((prev) => ({ ...prev, hoTen: e.target.value }))}
+                  placeholder="Nguyễn Văn B"
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none focus:border-teal-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Số điện thoại</label>
+                <input
+                  type="tel"
+                  value={form.soDienThoai}
+                  onChange={(e) => setForm((prev) => ({ ...prev, soDienThoai: e.target.value }))}
+                  placeholder="0909..."
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none focus:border-teal-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">Số CCCD</label>
+                <input
+                  type="text"
+                  value={form.cccd}
+                  onChange={(e) => setForm((prev) => ({ ...prev, cccd: e.target.value }))}
+                  placeholder="123456789012"
+                  className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none focus:border-teal-500"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={saving}
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 rounded-xl disabled:opacity-70"
+              >
+                {saving ? 'Đang lưu...' : 'Lưu thành viên'}
+              </button>
+            </form>
+          </Modal>
+
+          <Toast message={toast} type={toastType} onClose={() => setToast('')} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
